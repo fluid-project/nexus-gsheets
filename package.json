@@ -1,0 +1,25 @@
+{
+  "name": "infusion-nexus-gsheets",
+  "version": "0.1.0",
+  "description": "A Nexus adapter for Google Sheets",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests/all-tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ptcher/infusion-nexus-gsheets.git"
+  },
+  "author": "Philip Tchernavskij",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/ptcher/infusion-nexus-gsheets/issues"
+  },
+  "homepage": "https://github.com/ptcher/infusion-nexus-gsheets#readme",
+  "dependencies": {
+    "infusion": "3.0.0-dev.20200317T122331Z.1aa7ea8a1.FLUID-6145",
+    "infusion-nexus": "0.3.0-dev.20200305T224303Z.59892d3",
+    "infusion-nexus-client": "fluid-project/infusion-nexus-client#ddc9a6fc7c196f9fc306a586f995e34d66734e1c",
+    "googleapis": "48.0.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "credentialsPath": "credentials.json",
+    "tokenPath": "token.json",
+    "spreadsheets": {
+        "P1-google-group-threads": {
+            "id": "1DOUq58pEHp66LdVaVdEMtO8jMpHe7iuO6MKREXfm9e4",
+            "sheets": ["Sheet1"]
+        }
+    }
+}
