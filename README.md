@@ -25,6 +25,8 @@ It also opens some questions about the practice of programming applications that
 ## development plan
  - [x] read data from a spreadsheet
  - [x] make a config file defining aliases for sheets of interest, token location, credentials location
+ - [ ] make a mock of the google sheets oAuth2 client object, extending as you use it, for testing. Note that the mock must also be asynchronous
+ - [ ] find examples of how grades are made based on the new Infusion async resource grade
  - [ ] figure out how to distribute the demo. I assume it either needs to work with public sheets, or there should be a user dialog for setting up credentials and either providing a URL or naming the data to go in a sheet
  - [ ] figure out how to package Nexus adapters as grades available to a Nexus instance on startup. Maybe copy Kettle's config functionality?
  - [ ] use Nexus WebSocket API to write something in the console and it is put in a cell in a spreadsheet
@@ -47,3 +49,6 @@ Sometimes we mediate this integration in interesting ways.
   - connecting spreadsheets to each other to help people share data
   - connecting local spreadsheets to shared spreadsheets to support people using their own preferred interface
   - connecting spreadsheets to visualizations (in some improved ways???)
+
+## what should be tested
+ - creation of grades and showing that the models contain the expected results

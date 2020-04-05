@@ -43,6 +43,7 @@ var fluid = fluid || require('infusion');
     gradeNames: ['fluid.modelComponent'],
     spreadSheetId: "", // the id of the host spreadsheet, which can be extracted from the URL
     sheetName: "Sheet 1", // the name of the host sheet, defaults to "Sheet 1" in single-sheet spreadsheets
+    coordinate: "A1", // the coordinate of the cell in the host sheet
     model: {
         value: null
     },
@@ -53,8 +54,40 @@ var fluid = fluid || require('infusion');
 
  // what does this function receive? that?
  fluid.spreadsheets.connectToCell = function(that) {
-
+    // this should inherit the grade of async data sources
+    // doAuthorized a function that grabs the value of the cell at cellPosition,
+    // and puts it in value
+    // Since that function itself is async, I don't know if it can just be thrown
+    // in an onCreate listener, but I should just find an example of Antranig
+    // using the new grade
  }
+
+ // based on the range, gives a properly dimensioned model
+// actually the component ought to be specified so it can contain
+// a number of child queries into the same spreadsheet,
+// whether ranges or single cells
+// the point of this is that it gets to reuse the authorized client,
+// and it implies a flow where specifying the sheet and specifying where your attention
+// is in it are separate steps, and one of them happens more often than the other.
+ fluid.defaults('fluid.spreadsheets.sheetRange', {
+ 
+ });
+
+ // does a paginated resource extend downwards, keeping everything in memory,
+ // or does it remove the previous material, assuming it's on the client to
+ // garbage collect or memorize that state?
+ // could I adapt a grade written one way into one written the other way,
+ // in both directions?
+ fluid.defaults('fluid.spreadsheets.paginatedSheet', {
+     events: {
+         nextPage: null,
+         previousPage: null
+     },
+     listeners: {
+        'nextPage.loadNextPage': "",
+        'previousPage.loadPreviousPage': ""
+     }
+ })
 
 
 authorize.doAuthorized(function (sheets) {
