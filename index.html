@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Nexus Spreadsheets Integration Demo</title>
+        <style>
+            .value-display {
+                border: 1px solid black;
+            }
+        </style>
+        <script type="text/javascript" src="node_modules/infusion/src/lib/jquery/core/js/jquery.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/Fluid.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/FluidDocument.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/FluidDOMUtilities.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/FluidIoC.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/DataBinding.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/FluidView.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/ModelTransformation.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/ModelTransformationTransforms.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/FluidPromises.js"></script>
+        <script type="text/javascript" src="node_modules/infusion/src/framework/core/js/FluidView-browser.js"></script>
+
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+    <body>
+        <span class="value-display">Uninitiated</span>
+
+        <script type="text/javascript">
+            fluid.construct("demo", {
+                type: "spreadsheets.demo",
+                options: {
+                    selectors: {
+                        main: "body",
+                        valueDisplay: ".value-display"
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
