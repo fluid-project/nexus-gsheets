@@ -47,6 +47,13 @@ authorize.doAuthorized(function (sheets) {
 // nexusClient.mirroredComponent
 // that might require a differentiation between local gradeNames and remote gradeNames
 
+// TODO: test the cell sub-component here by itself directly on a running Nexus server
+// does this imply I need a direct-translation thing that lets me do
+//   nexus.defaults(...) -> emit a PUT
+//   nexus.construct(...) -> emit a POST
+//   nexus.connect(...) -> create an interactive prompt with readline
+// just so constructNexusPeers-esque scripts can at least be easy to write
+
 fluid.defaults("spreadsheets.demo", {
     gradeNames: ['fluid.viewComponent'],
     selectors: {
@@ -63,7 +70,6 @@ fluid.defaults("spreadsheets.demo", {
             options: {
                 spreadsheetId: "1DOUq58pEHp66LdVaVdEMtO8jMpHe7iuO6MKREXfm9e4",
                 coordinate: "F2",
-                container: "{demo}.dom.valueDisplay"
             }
         }
     }
