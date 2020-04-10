@@ -6,3 +6,8 @@ fluid.construct('root', {
     sheetName: 'Sheet1',
     coordinate: 'F2'
 });
+
+fluid.construct('root', {
+    type: 'spreadsheets.spreadsheet',
+    spreadsheetId: '1DOUq58pEHp66LdVaVdEMtO8jMpHe7iuO6MKREXfm9e4'
+});
