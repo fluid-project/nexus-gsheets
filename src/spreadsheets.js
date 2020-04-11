@@ -64,19 +64,65 @@ fluid.defaults('spreadsheets.spreadsheet', {
  * @returns {String} The coordinate in A1 notation.
  */
 spreadsheets.coordToA1 = function(column, row) {
-    // TODO: the trick is the column isn't exactly a conventional base
-    // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 26, 27, 28
-    // A, B, C, D, E, F, G, H, I, J,   K,  Z, AA, AB
+    return numberToColumn(column) + row;
 };
 
+var numberToColumn = function(int) {
+    var togo = int - 1;
+    togo = togo.toString(26);
+    togo = successorBase27(togo);
+    togo = shiftToAlphabetical(togo);
+    return togo;
+};
+
+var successorBase27 = function(str) {
+    var togo;
+    for (i = str.length - 1; i >= 0; i--) {
+        var char = str[i];
+        if (char !== 'q') {
+            togo = str.substring(0, i) + (parseInt(char, 26) + 1).toString(27) + str.substring(i + 1)
+            return togo;
+        } else {
+            togo = str.substring(0, i) + '0' + str.substring(i + 1);
+        }
+    }
+    return '1' + togo;
+};
+
+var shiftToAlphabetical = function(str) {
+    return str.replace(/\w/g, (char) => ({ 
+        1: 'A', 
+        2: 'B',
+        3: 'C',
+        4: 'D',
+        5: 'E', 
+        6: 'F', 
+        7: 'G',
+        8: 'H',
+        9: 'I', 
+        a: 'J', 
+        b: 'K',
+        c: 'L', 
+        d: 'M',
+        e: 'N',
+        f: 'O', 
+        g: 'P', 
+        h: 'Q',
+        i: 'R', 
+        j: 'S', 
+        k: 'T',
+        l: 'U', 
+        m: 'V',
+        n: 'W',
+        o: 'X',
+        p: 'Y', 
+        q: 'Z' 
+    })[char]);
+};
+
+// TODO: refactor this messy function
 spreadsheets.spreadsheet.getContent = function(that, session) {
-    // TODO: this implies that session.get should be a little more configurable
-    // or maybe rather that session should have more endpoints
-    // getRange: spreadsheets.values.get
-    // getRanges: spreadsheets.values.batchGet
-    // getSpreadsheet: spreadsheets.get // should get us a hash of GridData objects??
-    //
-    // I wonder if I can more declaratively specify
+    // TODO: I wonder if I can more declaratively specify
     //   which api call with which body
     //   how to decode and extract data
     //   how to fill the model
@@ -93,30 +139,27 @@ spreadsheets.spreadsheet.getContent = function(that, session) {
     spreadsheetPromise.then(function(res) {
         fluid.each(res.data.sheets, function(sheetObject) {
             console.log(sheetObject);
-            // TODO: clear all empty rows and columsn from the outside until one is encountered with content in it
-            var {title} = sheetsObject.properties;
-            var {columnCount, rowCount} = sheetsObject.properties.gridProperties;
+            var {title} = sheetObject.properties;
+            var {columnCount, rowCount} = sheetObject.properties.gridProperties;
             requests.push({title, columnCount, rowCount});
-            // TODO: put these in a collection, then do a sheets.values.batchGet by doing
-            // spreadsheetId = spreadsheetId
-            // range = title + '!' + columnsAndRowsToA1(columnCount, rowCount)
-            // then iterate backwards through the resulting data
         });
-        // value = res.data.sheets
-        // value = res.data.values[0][0];
-        // that.applier.change('value', value);
-        // console.log('changed model value to ', value);
         var valuePromise;
         try {
             valuePromise = session.getRanges(
                 session, 
                 that.options.spreadsheetId, 
                 requests.map(function({title, columnCount, rowCount}) {
-                    return title + '!' + 'A1:' + x + rowCount;
+                    return title + '!' + 'A1:' + spreadsheets.coordToA1(columnCount, rowCount);
             }));
         } catch (error) {
             console.log(error);
         }
+        valuePromise.then(function(res) {
+            fluid.each(res.data.valueRanges, function({values}) {
+                // TODO: put these values in a model
+                console.log(values);
+            });
+        });
     }, function(error) {
         console.log('promise rejected: ', error);
     });
