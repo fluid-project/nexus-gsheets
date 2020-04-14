@@ -1,4 +1,3 @@
-var authorize = require('./src/authorize');
 var config = require('./config.json');
 var spreadsheets = require('./src/spreadsheets');
 
@@ -6,54 +5,13 @@ var spreadsheets = require('./src/spreadsheets');
   *  IMPERATIVE DEMO *
   ********************/
 
-authorize.doAuthorized(function (sheets) {
-    spreadsheetMetadata = config.spreadsheets["P1-google-group-threads"];
+  // deprecrated, example at https://developers.google.com/sheets/api/quickstart/nodejs
 
-    sheets.spreadsheets.values.get({
-        spreadsheetId: spreadsheetMetadata.id,
-        range: 'B2:G'
-    }, function (err, res) {
-        if (err) throw new Error('The API returned an error ' + err);
+/**********************
+ * TOY COMPONENT DEMO *
+ **********************/
 
-        var rows = res.data.values;
-        if (rows.length) {
-            console.log('Date, Issue:');
-            // Print columsn B and D, which correspond to indices 1 and 3
-            // relative to the range.
-            rows.map(function (row) {
-                console.log(`${row[1]}, ${row[3]}`);
-            });
-        } else {
-            console.log('No data found.');
-        }
-    });
-});
-
-/*******************
- * MOST BASIC DEMO *
- *******************/
-
-// TODO: the below shouldn't create a spreadsheets.cell directly,
-// that cell should be created as a Nexus component.
-// the client then establishes a WebSocket to the model of that cell,
-// which updates the valueDisplay model
-
-// I suppose I can make the POST request from the browser 
-// here's what I don't understand, is there an Infusion-y way to request
-// that a Nexus server creates a certain component?
-// How would Infusion know that a particular component should live in the Nexus
-// and only exist here as a mirrored one?
-// I guess it could theoretically be done through a mixin grade, like
-// nexusClient.mirroredComponent
-// that might require a differentiation between local gradeNames and remote gradeNames
-
-// TODO: test the cell sub-component here by itself directly on a running Nexus server
-// does this imply I need a direct-translation thing that lets me do
-//   nexus.defaults(...) -> emit a PUT
-//   nexus.construct(...) -> emit a POST
-//   nexus.connect(...) -> create an interactive prompt with readline
-// just so constructNexusPeers-esque scripts can at least be easy to write
-
+ // TODO: add a model listener
 fluid.defaults("spreadsheets.demo", {
     gradeNames: ['fluid.viewComponent'],
     selectors: {
@@ -69,21 +27,13 @@ fluid.defaults("spreadsheets.demo", {
             type: 'spreadsheets.cell',
             options: {
                 spreadsheetId: "1DOUq58pEHp66LdVaVdEMtO8jMpHe7iuO6MKREXfm9e4",
-                coordinate: "F2",
+                sheetName: 'Sheet1',
+                coordinate: "F2"
             }
         }
     }
 });
 
-// I don't understand how viewComponents are attached to HTML
-// I need to set up the rendering bit, and then the model relay from a cell
-// well ACTUALLY, I need to 
-//    . set up the view rendering bit (no clue whether that's changed in FLUID-6145 Infusion)
-//      basic tutorial is here  https://docs.fluidproject.org/infusion/development/tutorial-developerIntroduction/DeveloperIntroductionToInfusionFramework-ViewsAndViewComponents.html
-//    . create the cell on the Nexus server
-//      for now, just use a constructNexusPeers script
-//    . set up a WebSocket connection from index.html to the Nexus server, fetching the value of the cell
-//    . update the view
 fluid.defaults('spreadsheets.valueDisplay', {
     gradeNames: ['fluid.viewComponent'],
 })
@@ -132,3 +82,36 @@ fluid.defaults('spreadsheets.valueDisplay', {
  * sheets.google.com: hosts sheets
  */
 
+/**************
+ * NEXUS DEMO *
+ **************/
+// TODO: the below shouldn't create a spreadsheets.cell directly,
+// that cell should be created as a Nexus component.
+// the client then establishes a WebSocket to the model of that cell,
+// which updates the valueDisplay model
+
+// I suppose I can make the POST request from the browser 
+// here's what I don't understand, is there an Infusion-y way to request
+// that a Nexus server creates a certain component?
+// How would Infusion know that a particular component should live in the Nexus
+// and only exist here as a mirrored one?
+// I guess it could theoretically be done through a mixin grade, like
+// nexusClient.mirroredComponent
+// that might require a differentiation between local gradeNames and remote gradeNames
+
+// TODO: test the cell sub-component here by itself directly on a running Nexus server
+// does this imply I need a direct-translation thing that lets me do
+//   nexus.defaults(...) -> emit a PUT
+//   nexus.construct(...) -> emit a POST
+//   nexus.connect(...) -> create an interactive prompt with readline
+// just so constructNexusPeers-esque scripts can at least be easy to write
+
+// I don't understand how viewComponents are attached to HTML
+// I need to set up the rendering bit, and then the model relay from a cell
+// well ACTUALLY, I need to 
+//    . set up the view rendering bit (no clue whether that's changed in FLUID-6145 Infusion)
+//      basic tutorial is here  https://docs.fluidproject.org/infusion/development/tutorial-developerIntroduction/DeveloperIntroductionToInfusionFramework-ViewsAndViewComponents.html
+//    . create the cell on the Nexus server
+//      for now, just use a constructNexusPeers script
+//    . set up a WebSocket connection from index.html to the Nexus server, fetching the value of the cell
+//    . update the view
