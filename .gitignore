@@ -109,3 +109,6 @@ package-lock.json
 # Google API credentials
 credentials.json
 token.json
+
+# VSCode configuration
+.vscode
