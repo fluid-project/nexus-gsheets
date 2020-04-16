@@ -40,9 +40,11 @@ In API functions, the sheetName and coordinate/range are combined in one string,
  - [x] read data from a spreadsheet
  - [x] make a config file defining aliases for sheets of interest, token location, credentials location
  - [x] write data to a spreadsheet
- - [ ] use Nexus WebSocket API to write something in the console and it is put in a cell in a spreadsheet
+ - [ ] create a sheet in a Nexus component tree
+ - [ ] create a super-basic browser-and-Nexus setup
+ - [ ] support interactive token creation
  - [ ] figure out how to package Nexus adapters as grades available to a Nexus instance on startup. Maybe copy Kettle's config functionality?
- - [ ] make a mock of the google sheets oAuth2 client object, extending as you use it, for testing. Note that the mock must also be asynchronous
+ - [ ] set up unit testing, including a test mock of the google sheets API client object. 
  - [ ] figure out how to distribute the demo. I assume it either needs to work with public sheets, or there should be a user dialog for setting up credentials and either providing a URL or naming the data to go in a sheet
 
 Do I depend on the nexus or not?
@@ -62,4 +64,10 @@ Sometimes we mediate this integration in interesting ways.
   - connecting spreadsheets to visualizations (in some improved ways???)
 
 ## what should be tested
- - creation of grades and showing that the models contain the expected results
+ - component models contain the expected results after creation
+ - API calls to all endpoints are correctly formatted
+ - repeated reads work after changes in the 'remote' data?
+ - model edits causes API writes
+ - component creation does not cause API writes
+ - writes transmit between two sheet objects with the same remote sheet
+ - data written to a remote sheet then read again is identical 
