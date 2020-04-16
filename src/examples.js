@@ -1,15 +1,13 @@
-var config = require('./config.json');
 var spreadsheets = require('./src/spreadsheets');
 
- /********************
-  *  IMPERATIVE DEMO *
-  ********************/
-
-  // deprecrated, example at https://developers.google.com/sheets/api/quickstart/nodejs
+// Hypothetical examples of applications using the spreadsheet grades.
 
 /**********************
  * TOY COMPONENT DEMO *
  **********************/
+
+ // This one gives a sense of the ideal structure of a final client,
+ // but it doesn't make sense currently, since it isn't clear whether this should exist on the browser or in a Nexus.
 
  // TODO: add a model listener
 fluid.defaults("spreadsheets.demo", {
